@@ -3,7 +3,6 @@ name: Feature request
 about: 기능 추가 이슈
 title: "[FEATURE] ~~"
 labels: ''
-assignees: jjj5306, kdhqwe1030
 
 ---
 
