@@ -1,4 +1,4 @@
-import pandas as pd
+import pand as pd
 from sklearn import metrics
 import os
 from tensorflow.keras.models import load_model

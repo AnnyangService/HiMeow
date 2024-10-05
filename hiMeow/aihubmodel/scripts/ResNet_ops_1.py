@@ -27,6 +27,7 @@ from tensorflow.keras.callbacks import ModelCheckpoint
 import tensorflow as tf
 import tensorflow.keras.backend as K
 
+# 검증 데이터셋 경로. 변경 필요
 val_path = '/home/mark11/label/cat/Sequestrum/val/'
 
 seed = 2
