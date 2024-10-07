@@ -21,14 +21,14 @@ from tensorflow.keras.applications.densenet import DenseNet121, DenseNet169, Den
 from tensorflow.keras.applications.inception_v3 import InceptionV3
 from tensorflow.keras.applications.inception_resnet_v2 import InceptionResNetV2
 from tensorflow.keras.applications.efficientnet import EfficientNetB0
-# from tensorflow.keras.utils import multi_gpu_model
-from tensorflow.python.keras.utils.multi_gpu_utils import multi_gpu_model
+from tensorflow.keras.utils import multi_gpu_model
+# from tensorflow.python.keras.utils.multi_gpu_utils import multi_gpu_model
 from tensorflow.keras.callbacks import ModelCheckpoint
 import tensorflow as tf
 import tensorflow.keras.backend as K
 
 # 검증 데이터셋 경로. 변경 필요
-val_path = '/home/mark11/label/cat/Sequestrum/val/'
+val_path = '../../dataset/'
 
 seed = 2
 

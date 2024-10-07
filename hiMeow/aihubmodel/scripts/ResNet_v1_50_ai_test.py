@@ -5,7 +5,7 @@ from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 # modelPath = './model_saved/train/efficientnet_200/'  # 모델이 저장된 경로
-modelPath = '/home/mark11/Dog/model_saved/train/resnet_v1_50_100/'  # 모델이 저장된 경로
+modelPath = '/hiMeow/aihubmodel/scirpts/resnet_v1_50_100/'  # 모델이 저장된 경로
 weight = 'model-066-0.874390-0.860614.h5'        # 학습된 모델의 파일이름
 test_Path = '/home/mark11/label/cat/Sequestrum/test/' # 테스트 이미지 폴더
 
