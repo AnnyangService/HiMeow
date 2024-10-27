@@ -13,6 +13,19 @@ def save_model(model, disease):
     torch.save(model.state_dict(), filepath)
     print(f"Model for {disease} saved to {filepath}")
 
+# def load_model(disease, num_classes=2, num_aux_features=3, device='cpu'):
+#     """ProjectConfig를 사용하여 모델 로드"""
+#     config = ProjectConfig()
+#     filepath = config.get_model_path(disease)
+#     if not os.path.exists(filepath):
+#         print(f"No existing model found for {disease}")
+#         return None
+#     model = trainMobilenet(num_classes=num_classes, num_aux_features=num_aux_features)
+#     model.load_state_dict(torch.load(filepath, map_location=device))
+#     model.to(device)
+#     model.eval()
+#     return model
+
 def load_model(disease, num_classes=2, num_aux_features=3, device='cpu'):
     """ProjectConfig를 사용하여 모델 로드"""
     config = ProjectConfig()
@@ -20,8 +33,13 @@ def load_model(disease, num_classes=2, num_aux_features=3, device='cpu'):
     if not os.path.exists(filepath):
         print(f"No existing model found for {disease}")
         return None
+
     model = trainMobilenet(num_classes=num_classes, num_aux_features=num_aux_features)
-    model.load_state_dict(torch.load(filepath, map_location=device))
+
+    # weights_only=True로 설정하여 경고 메시지 제거
+    state_dict = torch.load(filepath, map_location=device, weights_only=True)
+    model.load_state_dict(state_dict)
+
     model.to(device)
     model.eval()
     return model

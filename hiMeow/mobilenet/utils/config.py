@@ -2,6 +2,7 @@ import os
 import sys
 from pathlib import Path
 
+
 class ProjectConfig:
     _instance = None
 
@@ -22,8 +23,10 @@ class ProjectConfig:
         self.dataset_dir = os.path.join(self.project_root, 'dataset')
         self.train_path = os.path.join(self.dataset_dir, 'Training')
         self.validation_path = os.path.join(self.dataset_dir, 'Validation')
-        self.models_dir = os.path.join(self.project_root, 'models')
-        self.results_dir = os.path.join(self.project_root, 'results')
+
+        # models와 results 경로를 hiMeow/mobilenet 하위로 변경
+        self.models_dir = os.path.join(self.project_root, 'hiMeow', 'mobilenet', 'models')
+        self.results_dir = os.path.join(self.project_root, 'hiMeow', 'mobilenet', 'results')
 
         # 시스템 경로에 프로젝트 루트 추가
         if self.project_root not in sys.path:
