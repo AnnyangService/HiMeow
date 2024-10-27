@@ -3,13 +3,12 @@ import torch.nn as nn
 from torchvision.models import mobilenet_v2, MobileNet_V2_Weights
 import time
 
-
 class trainMobilenet(nn.Module):
-
     def __init__(self, num_classes=2, num_aux_features=3):
         super(trainMobilenet, self).__init__()
         self.mobilenet = mobilenet_v2(weights=MobileNet_V2_Weights.IMAGENET1K_V1)
 
+        # 모델 대부분의 레이어를 고정 (fine-tuning)
         for param in self.mobilenet.features[:-4].parameters():
             param.requires_grad = False
 
@@ -38,7 +37,19 @@ class trainMobilenet(nn.Module):
 
 
 def train_model(model, dataloader, optimizer, criterion, device, num_epochs=5):
+    """
+    모델 학습 함수
+    Args:
+        model: 학습할 모델
+        dataloader: 데이터 로더
+        optimizer: 옵티마이저
+        criterion: 손실 함수
+        device: 학습 디바이스
+        num_epochs: 학습 에폭 수
+    """
     start_time = time.time()
+    best_loss = float('inf')
+
     for epoch in range(num_epochs):
         model.train()
         running_loss = 0.0
@@ -66,6 +77,11 @@ def train_model(model, dataloader, optimizer, criterion, device, num_epochs=5):
         epoch_time = time.time() - start_time
         print(f'Epoch [{epoch + 1}/{num_epochs}], Average Loss: {avg_loss:.4f}, '
               f'Epoch Time: {epoch_time:.2f}s')
+
+        # 최고 손실 갱신
+        if avg_loss < best_loss:
+            best_loss = avg_loss
+            print(f'New best loss: {best_loss:.4f}')
 
     total_time = time.time() - start_time
     print(f'Total Training Time: {total_time:.2f}s')

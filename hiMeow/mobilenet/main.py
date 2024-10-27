@@ -1,30 +1,22 @@
+# hiMeow/mobilenet/main.py
 import torch
-import sys
-import os
-
-current_file = os.path.abspath(__file__)
-current_dir = os.path.dirname(current_file)
-project_root = os.path.dirname(os.path.dirname(current_dir))
-
-if project_root not in sys.path:
-    sys.path.append(project_root)
-
-for path in sys.path:
-    print(path)
-
+from hiMeow.mobilenet.utils.config import ProjectConfig
 from hiMeow.mobilenet.dataloader.dataLoader import CatEyeDatasetCustomized, data_transforms
 from hiMeow.mobilenet.utils.utils import train_or_load_models
 
 
 def main():
+    # 프로젝트 설정 초기화
+    config = ProjectConfig()
+    config.create_directories()
+
+    # 디바이스 설정
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     print(f"Using device: {device}")
 
-    # 데이터셋 경로 설정
-    dataset_path = os.path.join(project_root, 'dataset', 'Training')
-    print(f"Dataset path: {dataset_path}")
-
-    dataset = CatEyeDatasetCustomized(dataset_path, transform=data_transforms)
+    # 데이터셋 경로 설정 및 데이터 로드
+    print(f"Dataset path: {config.train_path}")
+    dataset = CatEyeDatasetCustomized(config.train_path, transform=data_transforms)
     print(f"Total samples: {len(dataset)}")
 
     diseases = ['각막궤양', '결막염', '안검염', '백내장', '녹내장']
