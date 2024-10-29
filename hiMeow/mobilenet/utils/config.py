@@ -2,7 +2,6 @@ import os
 import sys
 from pathlib import Path
 
-
 class ProjectConfig:
     _instance = None
 
@@ -14,7 +13,6 @@ class ProjectConfig:
 
     def _initialize(self):
         """프로젝트 경로 초기화"""
-        # utils/config.py 기준으로 프로젝트 루트 찾기
         current_file = os.path.abspath(__file__)
         current_dir = os.path.dirname(current_file)
         self.project_root = os.path.dirname(os.path.dirname(os.path.dirname(current_dir)))
@@ -23,12 +21,10 @@ class ProjectConfig:
         self.dataset_dir = os.path.join(self.project_root, 'dataset')
         self.train_path = os.path.join(self.dataset_dir, 'Training')
         self.validation_path = os.path.join(self.dataset_dir, 'Validation')
-
-        # models와 results 경로를 hiMeow/mobilenet 하위로 변경
+        self.test_path = os.path.join(self.dataset_dir, 'Test')
         self.models_dir = os.path.join(self.project_root, 'hiMeow', 'mobilenet', 'models')
         self.results_dir = os.path.join(self.project_root, 'hiMeow', 'mobilenet', 'results')
 
-        # 시스템 경로에 프로젝트 루트 추가
         if self.project_root not in sys.path:
             sys.path.append(self.project_root)
 
@@ -42,6 +38,7 @@ class ProjectConfig:
             self.dataset_dir,
             self.train_path,
             self.validation_path,
+            self.test_path,
             self.models_dir,
             self.results_dir
         ]
@@ -55,7 +52,8 @@ Project Configuration:
 - Project Root: {self.project_root}
 - Dataset Directory: {self.dataset_dir}
   ├─ Training: {self.train_path}
-  └─ Validation: {self.validation_path}
+  ├─ Validation: {self.validation_path}
+  └─ Test: {self.test_path}
 - Models Directory: {self.models_dir}
 - Results Directory: {self.results_dir}
 """
