@@ -19,7 +19,7 @@ def main():
     dataset = CatEyeDatasetCustomized(config.train_path, transform=data_transforms)
     print(f"Total samples: {len(dataset)}")
 
-    diseases = ['각막궤양', '결막염', '안검염', '백내장', '녹내장']
+    diseases = ['각막궤양', '결막염', '안검염', '각막부골편', '비궤양성각막염']
 
     use_k_fold = input("Use k-fold cross validation? (y/n): ").lower() == 'y'
     k = 3 if use_k_fold else 1

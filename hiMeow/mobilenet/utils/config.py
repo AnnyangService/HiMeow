@@ -29,7 +29,6 @@ class ProjectConfig:
             sys.path.append(self.project_root)
 
     def get_model_path(self, disease_name):
-        """질병별 모델 파일 경로 반환"""
         return os.path.join(self.models_dir, f'mobilenet_v2_{disease_name}_model.pth')
 
     def create_directories(self):

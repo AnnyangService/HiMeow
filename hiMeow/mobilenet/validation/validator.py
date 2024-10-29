@@ -21,17 +21,27 @@ class ModelValidator:
         self.model.eval()
         with torch.no_grad():
             outputs = self.model(images, aux_features)
-            _, predicted = torch.max(outputs.data, 1)
+            _, predicted = torch.max(outputs, 1)
         return predicted
 
     def calculate_metrics(self, y_true, y_pred, disease_name):
         metrics = {}
 
+        # numpy array로 변환하고 shape 확인
+        y_true = np.array(y_true)
+        y_pred = np.array(y_pred)
+
+        # 1차원 array로 변환
+        if len(y_true.shape) > 1:
+            y_true = y_true.ravel()
+        if len(y_pred.shape) > 1:
+            y_pred = y_pred.ravel()
+
         # 메트릭 계산
         metrics['accuracy'] = accuracy_score(y_true, y_pred)
-        metrics['precision'] = precision_score(y_true, y_pred, average='binary')
-        metrics['recall'] = recall_score(y_true, y_pred, average='binary')
-        metrics['f1_score'] = f1_score(y_true, y_pred, average='binary')
+        metrics['precision'] = precision_score(y_true, y_pred, zero_division=0)
+        metrics['recall'] = recall_score(y_true, y_pred, zero_division=0)
+        metrics['f1_score'] = f1_score(y_true, y_pred, zero_division=0)
         metrics['confusion_matrix'] = confusion_matrix(y_true, y_pred)
 
         # 1. Confusion Matrix 시각화
@@ -72,46 +82,3 @@ class ModelValidator:
         plt.close()
 
         return metrics
-
-    def plot_all_diseases_comparison(self, all_metrics):
-        """
-        모든 질병의 평가 지표를 한 그래프에 비교
-
-        Args:
-            all_metrics (dict): 질병별 메트릭 딕셔너리
-        """
-        diseases = list(all_metrics.keys())
-        metrics_names = ['Accuracy', 'Precision', 'Recall', 'F1 Score']
-
-        # 데이터 준비
-        metrics_data = {
-            metric: [all_metrics[disease][metric.lower()]
-                     for disease in diseases]
-            for metric in metrics_names
-        }
-
-        # 그래프 그리기
-        plt.figure(figsize=(12, 6))
-        x = np.arange(len(diseases))
-        width = 0.2
-        multiplier = 0
-
-        for metric_name, metric_values in metrics_data.items():
-            offset = width * multiplier
-            plt.bar(x + offset, metric_values, width, label=metric_name)
-            multiplier += 1
-
-        # 그래프 꾸미기
-        plt.xlabel('Diseases')
-        plt.ylabel('Score')
-        plt.title('Performance Metrics Comparison Across Diseases')
-        plt.xticks(x + width * 1.5, diseases)
-        plt.legend(loc='upper right')
-
-        # 저장
-        plt.savefig(
-            self.results_dir / 'all_diseases_comparison.png',
-            dpi=300,
-            bbox_inches='tight'
-        )
-        plt.close()

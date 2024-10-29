@@ -2,7 +2,6 @@ import torch
 import os
 from PIL import Image
 import torch.nn.functional as F
-
 from hiMeow.mobilenet.dataloader.dataLoader import data_transforms
 from hiMeow.mobilenet.utils.utils import load_model
 from hiMeow.mobilenet.utils.config import ProjectConfig
@@ -11,6 +10,7 @@ from hiMeow.mobilenet.utils.config import ProjectConfig
 def test_eye_disease(image_name, gender, age, eye_position):
     """
     눈 이미지에 대한 질병 예측을 수행합니다.
+    각 질병별로 독립적인 이진 분류를 수행합니다.
     """
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     diseases = ['각막궤양', '결막염', '안검염', '백내장', '녹내장']
@@ -19,14 +19,16 @@ def test_eye_disease(image_name, gender, age, eye_position):
     image_path = os.path.join(config.test_path, image_name)
 
     try:
+        # 이미지 로드 및 전처리
         image = Image.open(image_path).convert('RGB')
         image_tensor = data_transforms(image).unsqueeze(0).to(device)
         aux_features = torch.tensor([[gender, age, eye_position]],
                                     dtype=torch.float32).to(device)
 
         tests = {}
-        max_probability = 0
+        detected_diseases = []
 
+        # 각 질병별로 독립적으로 검사
         for disease in diseases:
             model = load_model(disease, device=device)
             if model is None:
@@ -35,31 +37,32 @@ def test_eye_disease(image_name, gender, age, eye_position):
             model.eval()
             with torch.no_grad():
                 outputs = model(image_tensor, aux_features)
-                probabilities = F.softmax(outputs, dim=1)
-                # 질병이 없을 확률 (0번 클래스)과 있을 확률 (1번 클래스)
-                normal_prob = probabilities[0][0].item()
-                disease_prob = probabilities[0][1].item()
-                tests[disease] = disease_prob
-                max_probability = max(max_probability, disease_prob)
+                # sigmoid를 사용하여 0~1 사이의 확률값으로 변환
+                probability = torch.sigmoid(outputs).item()
+                tests[disease] = probability
 
-        # 결과 정렬
+                # 임계값(0.5)을 넘는 경우 해당 질병 존재
+                if probability > 0.5:
+                    detected_diseases.append(disease)
+
+        # 결과 정렬 (확률 높은 순)
         sorted_tests = sorted(tests.items(), key=lambda x: x[1], reverse=True)
 
         print("\n=== 예측 결과 ===")
 
-        # 모든 질병의 확률이 낮은 경우 정상으로 판단
-        if max_probability < 0.5:  # 임계값을 0.5로 설정
+        if not detected_diseases:
             print("분석 결과: 정상 눈으로 판단됩니다.")
             print("\n개별 질병 확률:")
         else:
-            print("주의: 다음 질병의 가능성이 있습니다.")
+            print("주의: 다음 질병이 감지되었습니다:")
+            for disease in detected_diseases:
+                print(f"- {disease} (확률: {tests[disease]:.2%})")
+            print("\n전체 질병 분석 결과:")
 
-        # 개별 확률 출력
+        # 모든 질병의 확률 출력
         for disease, prob in sorted_tests:
-            if prob > 0.5:
-                print(f"{disease}: {prob:.2%} - 주의 필요")
-            else:
-                print(f"{disease}: {prob:.2%} - 정상 범위")
+            status = "주의 필요" if prob > 0.5 else "정상 범위"
+            print(f"{disease}: {prob:.2%} - {status}")
 
         return sorted_tests
 
@@ -98,7 +101,7 @@ if __name__ == "__main__":
 
     while True:
         try:
-            eye_position = int(input("눈 위치를 입력하세요 (0: 오른쪽, 1: 왼쪽): "))
+            eye_position = int(input("눈 위치를 입력하세요 (0: 오른쪽, 1: 왈쪽): "))
             if eye_position not in [0, 1]:
                 raise ValueError
             break

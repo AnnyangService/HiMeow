@@ -27,7 +27,6 @@ def save_model(model, disease):
 #     return model
 
 def load_model(disease, num_classes=2, num_aux_features=3, device='cpu'):
-    """ProjectConfig를 사용하여 모델 로드"""
     config = ProjectConfig()
     filepath = config.get_model_path(disease)
     if not os.path.exists(filepath):
