@@ -78,20 +78,3 @@ data_transforms = transforms.Compose([
     transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
 ])
 
-# # 데이터셋과 데이터 로더 생성
-# dataset = CatEyeDatasetCustomized('../../../dataset/Training', transform=data_transforms)
-# if len(dataset) > 0:
-#     dataloader = DataLoader(dataset, batch_size=1, shuffle=True, num_workers=4)
-#     print(f"DataLoader created with {len(dataset)} samples.")
-
-    # # 첫 번째 배치 확인 (선택사항)
-    # images, gender, age, eye_position, disease_nm, disease_lv_3 = next(iter(dataloader))
-    # print("First batch loaded successfully.")
-    # print(f"Image shape: {images.shape}")
-    # print(f"Gender: {gender.item()}")
-    # print(f"Age: {age.item()}")
-    # print(f"Eye position: {eye_position.item()}")
-    # print(f"Disease name: {disease_nm[0]}")
-    # print(f"Disease level 3: {disease_lv_3.item()}")
-# else:
-#     print("Dataset is empty. Cannot create DataLoader.")
