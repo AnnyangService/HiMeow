@@ -1,0 +1,16 @@
+# Basic requirements
+numpy>=1.22.0
+opencv-python>=4.6.0
+Pillow>=9.0.0
+tqdm>=4.64.0
+
+# PyTorch (GPU version)
+torch>=2.0.0
+torchvision>=0.15.0
+
+# YOLO specific
+ultralytics>=8.0.0  # YOLOv8
+
+# Utility
+pathlib>=1.0.1
+pyyaml>=6.0
