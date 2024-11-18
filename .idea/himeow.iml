@@ -6,7 +6,7 @@
       <excludeFolder url="file://$MODULE_DIR$/dataset" />
       <excludeFolder url="file://$MODULE_DIR$/yolo_dataset" />
     </content>
-    <orderEntry type="jdk" jdkName="mobilenet" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="yolo" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>
