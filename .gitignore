@@ -1,2 +1,4 @@
 /dataset
 /yolo_dataset
+.gitignore
+/hiMeow/yolo/training/models
