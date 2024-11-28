@@ -1,0 +1,245 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36" scale="1" border="0" version="24.8.9" pages="2">
+  <diagram name="페이지-1" id="fTwMygwrnkRltCHWvoQR">
+    <mxGraphModel dx="1034" dy="458" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="o1Y3Xf0-OkUsab8sPC36-2" value="HiMeow" style="swimlane;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="210" y="130" width="770" height="790" as="geometry" />
+        </mxCell>
+        <mxCell id="o1Y3Xf0-OkUsab8sPC36-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=1;" parent="o1Y3Xf0-OkUsab8sPC36-2" source="o1Y3Xf0-OkUsab8sPC36-8" target="o1Y3Xf0-OkUsab8sPC36-11" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="365" y="119.99999999999989" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="o1Y3Xf0-OkUsab8sPC36-23" value="include" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="o1Y3Xf0-OkUsab8sPC36-20" vertex="1" connectable="0">
+          <mxGeometry x="-0.1667" y="3" relative="1" as="geometry">
+            <mxPoint x="-22" y="-18" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="o1Y3Xf0-OkUsab8sPC36-6" value="수의사 챗봇 기능" style="ellipse;whiteSpace=wrap;html=1;" parent="o1Y3Xf0-OkUsab8sPC36-2" vertex="1">
+          <mxGeometry x="30" y="410" width="137" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="o1Y3Xf0-OkUsab8sPC36-7" value="수의사 상담 요청 기능" style="ellipse;whiteSpace=wrap;html=1;" parent="o1Y3Xf0-OkUsab8sPC36-2" vertex="1">
+          <mxGeometry x="30" y="635" width="137" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="o1Y3Xf0-OkUsab8sPC36-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;dashed=1;" parent="o1Y3Xf0-OkUsab8sPC36-2" source="o1Y3Xf0-OkUsab8sPC36-9" target="o1Y3Xf0-OkUsab8sPC36-11" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="o1Y3Xf0-OkUsab8sPC36-24" value="extend" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="o1Y3Xf0-OkUsab8sPC36-18" vertex="1" connectable="0">
+          <mxGeometry x="0.1262" relative="1" as="geometry">
+            <mxPoint x="21" y="47" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="o1Y3Xf0-OkUsab8sPC36-9" value="진단 결과 표시" style="ellipse;whiteSpace=wrap;html=1;" parent="o1Y3Xf0-OkUsab8sPC36-2" vertex="1">
+          <mxGeometry x="530" y="220" width="170" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="o1Y3Xf0-OkUsab8sPC36-11" value="사진 품질 판단" style="ellipse;whiteSpace=wrap;html=1;" parent="o1Y3Xf0-OkUsab8sPC36-2" vertex="1">
+          <mxGeometry x="280" y="160" width="170" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="o1Y3Xf0-OkUsab8sPC36-12" value="사진 기록 관리" style="ellipse;whiteSpace=wrap;html=1;" parent="o1Y3Xf0-OkUsab8sPC36-2" vertex="1">
+          <mxGeometry x="30" y="260" width="170" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="o1Y3Xf0-OkUsab8sPC36-8" value="고양이 눈 질병 진단 기능" style="ellipse;whiteSpace=wrap;html=1;" parent="o1Y3Xf0-OkUsab8sPC36-2" vertex="1">
+          <mxGeometry x="30" y="130" width="170" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="o1Y3Xf0-OkUsab8sPC36-34" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;dashed=1;" parent="o1Y3Xf0-OkUsab8sPC36-2" source="o1Y3Xf0-OkUsab8sPC36-30" target="o1Y3Xf0-OkUsab8sPC36-6" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="o1Y3Xf0-OkUsab8sPC36-40" value="extend" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="o1Y3Xf0-OkUsab8sPC36-34" vertex="1" connectable="0">
+          <mxGeometry x="-0.5924" y="-5" relative="1" as="geometry">
+            <mxPoint x="12" y="-5" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="o1Y3Xf0-OkUsab8sPC36-37" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=1;" parent="o1Y3Xf0-OkUsab8sPC36-2" source="o1Y3Xf0-OkUsab8sPC36-30" target="o1Y3Xf0-OkUsab8sPC36-32" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="o1Y3Xf0-OkUsab8sPC36-42" value="include" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="o1Y3Xf0-OkUsab8sPC36-37" vertex="1" connectable="0">
+          <mxGeometry x="-0.7976" y="-1" relative="1" as="geometry">
+            <mxPoint x="2" y="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="o1Y3Xf0-OkUsab8sPC36-30" value="고양이 눈 질병 상담" style="ellipse;whiteSpace=wrap;html=1;" parent="o1Y3Xf0-OkUsab8sPC36-2" vertex="1">
+          <mxGeometry x="264" y="350" width="137" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="o1Y3Xf0-OkUsab8sPC36-36" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;dashed=1;" parent="o1Y3Xf0-OkUsab8sPC36-2" source="o1Y3Xf0-OkUsab8sPC36-31" target="o1Y3Xf0-OkUsab8sPC36-6" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="o1Y3Xf0-OkUsab8sPC36-41" value="extend" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="o1Y3Xf0-OkUsab8sPC36-36" vertex="1" connectable="0">
+          <mxGeometry x="-0.5924" y="1" relative="1" as="geometry">
+            <mxPoint x="12" y="8" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="o1Y3Xf0-OkUsab8sPC36-38" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=1;" parent="o1Y3Xf0-OkUsab8sPC36-2" source="o1Y3Xf0-OkUsab8sPC36-31" target="o1Y3Xf0-OkUsab8sPC36-32" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="o1Y3Xf0-OkUsab8sPC36-43" value="include" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="o1Y3Xf0-OkUsab8sPC36-38" vertex="1" connectable="0">
+          <mxGeometry x="-0.8997" y="-2" relative="1" as="geometry">
+            <mxPoint x="10" y="6" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="o1Y3Xf0-OkUsab8sPC36-31" value="일반적인 고양이&amp;nbsp;&lt;div&gt;질병 상담&lt;/div&gt;" style="ellipse;whiteSpace=wrap;html=1;" parent="o1Y3Xf0-OkUsab8sPC36-2" vertex="1">
+          <mxGeometry x="264" y="470" width="137" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="o1Y3Xf0-OkUsab8sPC36-39" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;dashed=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="o1Y3Xf0-OkUsab8sPC36-2" source="o1Y3Xf0-OkUsab8sPC36-33" target="o1Y3Xf0-OkUsab8sPC36-32" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="550" y="555" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="o1Y3Xf0-OkUsab8sPC36-44" value="extend" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="o1Y3Xf0-OkUsab8sPC36-39" vertex="1" connectable="0">
+          <mxGeometry x="-0.3438" y="6" relative="1" as="geometry">
+            <mxPoint x="-15" y="-31" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="o1Y3Xf0-OkUsab8sPC36-32" value="질병 대처법 제공" style="ellipse;whiteSpace=wrap;html=1;" parent="o1Y3Xf0-OkUsab8sPC36-2" vertex="1">
+          <mxGeometry x="509" y="410" width="137" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="o1Y3Xf0-OkUsab8sPC36-33" value="2차 치료법 추천" style="ellipse;whiteSpace=wrap;html=1;" parent="o1Y3Xf0-OkUsab8sPC36-2" vertex="1">
+          <mxGeometry x="609" y="520" width="137" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="o1Y3Xf0-OkUsab8sPC36-3" value="User" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" parent="1" vertex="1">
+          <mxGeometry x="70" y="440" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="o1Y3Xf0-OkUsab8sPC36-26" value="" style="endArrow=none;html=1;rounded=0;exitX=1;exitY=0.3333333333333333;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="o1Y3Xf0-OkUsab8sPC36-3" target="o1Y3Xf0-OkUsab8sPC36-8" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="540" y="390" as="sourcePoint" />
+            <mxPoint x="590" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="o1Y3Xf0-OkUsab8sPC36-27" value="" style="endArrow=none;html=1;rounded=0;exitX=1;exitY=0.3333333333333333;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="o1Y3Xf0-OkUsab8sPC36-3" target="o1Y3Xf0-OkUsab8sPC36-12" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="120" y="370" as="sourcePoint" />
+            <mxPoint x="250" y="305" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="o1Y3Xf0-OkUsab8sPC36-29" value="" style="endArrow=none;html=1;rounded=0;exitX=1;exitY=0.3333333333333333;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="o1Y3Xf0-OkUsab8sPC36-3" target="o1Y3Xf0-OkUsab8sPC36-6" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="110" y="470" as="sourcePoint" />
+            <mxPoint x="250" y="435" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="o1Y3Xf0-OkUsab8sPC36-47" value="" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.3333333333333333;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="o1Y3Xf0-OkUsab8sPC36-3" target="o1Y3Xf0-OkUsab8sPC36-7" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="130" y="610" as="sourcePoint" />
+            <mxPoint x="250" y="585" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="PUrs10IoaybEa3Z29jdF" name="페이지-3">
+    <mxGraphModel dx="1034" dy="458" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="T6v2LOowLV1I3Ma6n3yi-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="T6v2LOowLV1I3Ma6n3yi-1" target="T6v2LOowLV1I3Ma6n3yi-2" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="400" y="160" />
+              <mxPoint x="300" y="160" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="T6v2LOowLV1I3Ma6n3yi-4" value="로그인 버튼 클릭" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="T6v2LOowLV1I3Ma6n3yi-3" vertex="1" connectable="0">
+          <mxGeometry x="-0.1333" y="3" relative="1" as="geometry">
+            <mxPoint x="-23" y="7" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="T6v2LOowLV1I3Ma6n3yi-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="T6v2LOowLV1I3Ma6n3yi-1" target="T6v2LOowLV1I3Ma6n3yi-8" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="T6v2LOowLV1I3Ma6n3yi-13" value="AI 체크 버튼 클릭" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="T6v2LOowLV1I3Ma6n3yi-9" vertex="1" connectable="0">
+          <mxGeometry x="-0.3778" y="3" relative="1" as="geometry">
+            <mxPoint x="43" y="11" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="T6v2LOowLV1I3Ma6n3yi-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="T6v2LOowLV1I3Ma6n3yi-1" target="T6v2LOowLV1I3Ma6n3yi-10" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="T6v2LOowLV1I3Ma6n3yi-14" value="수의사 챗봇 버튼 클릭" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="T6v2LOowLV1I3Ma6n3yi-12" vertex="1" connectable="0">
+          <mxGeometry x="-0.0889" relative="1" as="geometry">
+            <mxPoint x="-4" y="-9" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="T6v2LOowLV1I3Ma6n3yi-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="T6v2LOowLV1I3Ma6n3yi-1" target="T6v2LOowLV1I3Ma6n3yi-15" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="T6v2LOowLV1I3Ma6n3yi-17" value="수의사 상담 요청 버튼 클릭" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="T6v2LOowLV1I3Ma6n3yi-16" vertex="1" connectable="0">
+          <mxGeometry x="0.0857" y="-3" relative="1" as="geometry">
+            <mxPoint x="7" y="12" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="T6v2LOowLV1I3Ma6n3yi-32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" target="T6v2LOowLV1I3Ma6n3yi-31" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="400" y="200" as="sourcePoint" />
+            <mxPoint x="590" y="100" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="400" y="160" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="T6v2LOowLV1I3Ma6n3yi-33" value="반려동물 추가 버튼 클릭" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="T6v2LOowLV1I3Ma6n3yi-32" vertex="1" connectable="0">
+          <mxGeometry x="0.0938" y="6" relative="1" as="geometry">
+            <mxPoint y="16" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="T6v2LOowLV1I3Ma6n3yi-1" value="시작 화면" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="350" y="210" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="T6v2LOowLV1I3Ma6n3yi-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="T6v2LOowLV1I3Ma6n3yi-2" target="T6v2LOowLV1I3Ma6n3yi-5" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="T6v2LOowLV1I3Ma6n3yi-7" value="회원가입 버튼 클릭" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="T6v2LOowLV1I3Ma6n3yi-6" vertex="1" connectable="0">
+          <mxGeometry x="-0.5532" relative="1" as="geometry">
+            <mxPoint x="24" y="10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="T6v2LOowLV1I3Ma6n3yi-2" value="로그인 화면" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="250" y="75" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="T6v2LOowLV1I3Ma6n3yi-5" value="회원가입 화면" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="400" y="25" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="T6v2LOowLV1I3Ma6n3yi-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="T6v2LOowLV1I3Ma6n3yi-8" target="T6v2LOowLV1I3Ma6n3yi-22" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="T6v2LOowLV1I3Ma6n3yi-25" value="ㅁ" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="T6v2LOowLV1I3Ma6n3yi-23" vertex="1" connectable="0">
+          <mxGeometry x="-0.1778" y="1" relative="1" as="geometry">
+            <mxPoint y="9" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="T6v2LOowLV1I3Ma6n3yi-26" value="질병 인식 버튼 클릭" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="T6v2LOowLV1I3Ma6n3yi-23" vertex="1" connectable="0">
+          <mxGeometry x="-0.1444" y="-8" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="T6v2LOowLV1I3Ma6n3yi-29" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="T6v2LOowLV1I3Ma6n3yi-8" target="T6v2LOowLV1I3Ma6n3yi-27" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="T6v2LOowLV1I3Ma6n3yi-30" value="진단 기록 버튼 클릭" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="T6v2LOowLV1I3Ma6n3yi-29" vertex="1" connectable="0">
+          <mxGeometry x="0.0417" relative="1" as="geometry">
+            <mxPoint x="3" y="8" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="T6v2LOowLV1I3Ma6n3yi-8" value="질병 인식 화면" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="350" y="320" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="T6v2LOowLV1I3Ma6n3yi-10" value="AI 수의사&amp;nbsp;&lt;div&gt;챗봇&amp;nbsp;&lt;span style=&quot;background-color: initial;&quot;&gt;화면&lt;/span&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="610" y="210" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="T6v2LOowLV1I3Ma6n3yi-15" value="수의사 상담 화면" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="90" y="210" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="T6v2LOowLV1I3Ma6n3yi-22" value="진단 결과 화면" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="590" y="320" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="T6v2LOowLV1I3Ma6n3yi-27" value="진단 기록 화면" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="110" y="320" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="T6v2LOowLV1I3Ma6n3yi-31" value="반려동물&amp;nbsp;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;추가&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;화면&lt;/span&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="510" y="80" width="100" height="50" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

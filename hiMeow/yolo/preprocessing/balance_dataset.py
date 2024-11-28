@@ -7,34 +7,28 @@ from collections import defaultdict
 
 def balance_dataset(input_path, output_path, min_val_ratio=0.15, min_test_ratio=0.15):
     """
-    전처리된 데이터를 train/val/test로 균형있게 분할하고 유/무 비율도 맞춤
+    전처리된 데이터를 train/val/test로 균형있게 분할
     """
     # 출력 디렉토리 생성
     for split in ['train', 'val', 'test']:
-        os.makedirs(os.path.join(output_path, f'images/{split}'), exist_ok=True)
-        os.makedirs(os.path.join(output_path, f'labels/{split}'), exist_ok=True)
+        for class_name in ['정상', Path(output_path).name]:
+            os.makedirs(os.path.join(output_path, f'images/{split}/{class_name}'), exist_ok=True)
 
     # Train 데이터 수집
     train_images = defaultdict(list)
-    train_img_path = Path(os.path.join(input_path, 'train', 'images'))
-    for img_path in train_img_path.glob('*.jpg'):
-        label_path = Path(os.path.join(input_path, 'train', 'labels', img_path.stem + '.txt'))
-
-        with open(label_path, 'r') as f:
-            label = f.read().strip()
-            condition = '유' if label.startswith('1') else '무'
-            train_images[condition].append((img_path, label_path))
+    train_path = Path(os.path.join(input_path, 'train', 'images'))
+    for class_name in ['정상', Path(output_path).name]:
+        class_path = train_path / class_name
+        if class_path.exists():
+            train_images[class_name].extend(list(class_path.glob('*.jpg')))
 
     # Validation 데이터 수집
     val_images = defaultdict(list)
-    val_img_path = Path(os.path.join(input_path, 'val', 'images'))
-    for img_path in val_img_path.glob('*.jpg'):
-        label_path = Path(os.path.join(input_path, 'val', 'labels', img_path.stem + '.txt'))
-
-        with open(label_path, 'r') as f:
-            label = f.read().strip()
-            condition = '유' if label.startswith('1') else '무'
-            val_images[condition].append((img_path, label_path))
+    val_path = Path(os.path.join(input_path, 'val', 'images'))
+    for class_name in ['정상', Path(output_path).name]:
+        class_path = val_path / class_name
+        if class_path.exists():
+            val_images[class_name].extend(list(class_path.glob('*.jpg')))
 
     # 데이터 분포 출력
     print("\n현재 데이터 분포:")
@@ -45,58 +39,52 @@ def balance_dataset(input_path, output_path, min_val_ratio=0.15, min_test_ratio=
     for k, v in val_images.items():
         print(f"{k}: {len(v)}개")
 
-    def copy_files(file_list, split):
-        for img_path, label_path in file_list:
-            shutil.copy(img_path, os.path.join(output_path, f'images/{split}', img_path.name))
-            shutil.copy(label_path, os.path.join(output_path, f'labels/{split}', label_path.name))
+    def copy_files(file_list, split, class_name):
+        for img_path in file_list:
+            shutil.copy2(img_path, os.path.join(output_path, f'images/{split}/{class_name}', img_path.name))
 
     # Training 데이터 균형화
-    min_train_count = min(len(train_images['유']), len(train_images['무']))
+    min_train_count = min(len(train_images[k]) for k in train_images)
     balanced_train = {
-        '유': random.sample(train_images['유'], min_train_count),
-        '무': random.sample(train_images['무'], min_train_count)
+        k: random.sample(v, min_train_count) for k, v in train_images.items()
     }
 
-    # Test 셋 분할 (균형화된 training 데이터에서)
+    # Test 셋 분할
     test_size = int(min_train_count * min_test_ratio)
     train_size = min_train_count - test_size
 
     final_sets = {
-        'train': {'유': [], '무': []},
-        'test': {'유': [], '무': []},
-        'val': {'유': [], '무': []}
+        'train': defaultdict(list),
+        'test': defaultdict(list),
+        'val': defaultdict(list)
     }
 
     # Training과 Test 분할
-    for condition in ['유', '무']:
-        random.shuffle(balanced_train[condition])
-        final_sets['train'][condition] = balanced_train[condition][:train_size]
-        final_sets['test'][condition] = balanced_train[condition][train_size:]
+    for class_name in train_images.keys():
+        random.shuffle(balanced_train[class_name])
+        final_sets['train'][class_name] = balanced_train[class_name][:train_size]
+        final_sets['test'][class_name] = balanced_train[class_name][train_size:]
 
     # Validation 데이터 균형화
-    min_val_count = min(len(val_images['유']), len(val_images['무']))
+    min_val_count = min(len(val_images[k]) for k in val_images)
     final_sets['val'] = {
-        '유': random.sample(val_images['유'], min_val_count),
-        '무': random.sample(val_images['무'], min_val_count)
+        k: random.sample(v, min_val_count) for k, v in val_images.items()
     }
 
     # 파일 복사
     for split in ['train', 'test', 'val']:
-        for condition in ['유', '무']:
-            copy_files(final_sets[split][condition], split)
+        for class_name in train_images.keys():
+            copy_files(final_sets[split][class_name], split, class_name)
 
     # 최종 통계 출력
     print("\n=== 최종 데이터 분포 ===")
     for split in ['train', 'val', 'test']:
-        total = len(list(Path(os.path.join(output_path, f'images/{split}')).glob('*.jpg')))
+        total = sum(len(list(Path(os.path.join(output_path, f'images/{split}/{class_name}')).glob('*.jpg')))
+                   for class_name in ['정상', Path(output_path).name])
         print(f"\n{split}: 총 {total}개")
-
-        # 유/무 개수 세기
-        labels_path = Path(os.path.join(output_path, f'labels/{split}'))
-        pos_count = len([1 for f in labels_path.glob('*.txt') if open(f).read().strip().startswith('1')])
-        neg_count = total - pos_count
-        print(f"- 유: {pos_count}개")
-        print(f"- 무: {neg_count}개")
+        for class_name in ['정상', Path(output_path).name]:
+            count = len(list(Path(os.path.join(output_path, f'images/{split}/{class_name}')).glob('*.jpg')))
+            print(f"- {class_name}: {count}개")
 
     # YAML 파일 생성
     yaml_content = f"""
@@ -116,19 +104,13 @@ names: ['정상', '{Path(output_path).name}']
 
 
 def main():
-    # 기본 경로 설정
-    base_input_path = "../../../yolo_dataset/preprocessed"  # 전처리된 데이터 경로
-    base_output_path = "../../../yolo_dataset/balanced"  # 균형화된 데이터 저장 경로
-
-    # 질병 리스트
+    base_input_path = "../../../yolo_dataset/preprocessed"
+    base_output_path = "../../../yolo_dataset/balanced"
     diseases = ['각막궤양', '결막염', '안검염', '각막부골편', '비궤양성각막염']
 
     print("Starting keep dataset balance...")
-
-    # 출력 디렉토리 생성
     os.makedirs(base_output_path, exist_ok=True)
 
-    # 각 질병별 처리
     for disease in diseases:
         print(f"\n=== Starting balancing: {disease} ===")
         input_path = os.path.join(base_input_path, disease)
