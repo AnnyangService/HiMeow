@@ -4,8 +4,8 @@ import shutil
 import random
 
 # 기본 경로 설정
-base_path = "C:/Users/82103/Desktop/cat_data_sorted"  # 원본 데이터 경로
-output_path = "C:/Users/82103/Desktop/yolo_dataset"  # YOLO 데이터셋 경로
+base_path = "../../sortedDataset"
+output_path = "../..//yolo_dataset"  # YOLO 데이터셋 경로
 split_ratio = [0.6, 0.2, 0.2]  # train:val:test 비율
 
 # 데이터 분할 함수

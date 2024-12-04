@@ -5,7 +5,7 @@ subfolder_mapping = {
     "유": "positive"
 }
 
-base_path = "C:/Users/82103/Desktop/cat_data"
+base_path = "../../dataset"
 
 def rename_subfolders(base_path, subfolder_mapping):
     for parent_folder in ["Training", "Validation"]:

@@ -1,7 +1,7 @@
 import os
 
 # 기본 경로 설정
-base_path = "C:/Users/82103/Desktop/cat_data_sorted"
+base_path = "../../sortedDataset"
 
 # 파일 개수를 세는 함수
 def count_files_by_label(base_path):

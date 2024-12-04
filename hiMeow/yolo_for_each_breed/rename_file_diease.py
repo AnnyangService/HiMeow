@@ -12,7 +12,7 @@ rename_mapping = {
 }
 
 # Base 디렉토리 : 본인폴더 구조에 따라 변경필요
-base_path = "../cat_data"
+base_path = "../../dataset"
 
 # directory rename하는 함수
 def rename_directories(base_path, rename_mapping):

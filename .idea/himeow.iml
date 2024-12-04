@@ -5,6 +5,9 @@
       <excludeFolder url="file://$MODULE_DIR$/.venv" />
       <excludeFolder url="file://$MODULE_DIR$/dataset" />
       <excludeFolder url="file://$MODULE_DIR$/yolo_dataset" />
+      <excludeFolder url="file://$MODULE_DIR$/KoreaShortHair" />
+      <excludeFolder url="file://$MODULE_DIR$/hiMeow/yolo/training/models" />
+      <excludeFolder url="file://$MODULE_DIR$/sortedDataset" />
     </content>
     <orderEntry type="jdk" jdkName="yolo" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
