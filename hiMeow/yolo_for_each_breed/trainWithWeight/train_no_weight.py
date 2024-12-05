@@ -52,7 +52,11 @@ def check_gpu():
 
 def copy_dataset_to_local():
     """데이터셋을 로컬 스토리지로 복사"""
-    source_path = Path('../../../KoreaShortHair/datasets')
+    import os
+
+    current_file_dir = Path(__file__).parent  # 현재 스크립트 파일의 디렉토리
+    source_path = current_file_dir / '../../..' / 'KoreaShortHair/datasets'
+    source_path = source_path.resolve()  # 상대 경로를 절대 경로로 변환
     local_path = Path('/content/temp_dataset/datasets')
 
     if not local_path.exists():
@@ -64,23 +68,6 @@ def copy_dataset_to_local():
         print(f"Dataset copied to {local_path}")
 
     return local_path
-
-
-def create_dataset_yaml(dataset_path):
-    """데이터셋 YAML 파일 생성"""
-    data_yaml = {
-        'train': str(dataset_path / 'train'),
-        'val': str(dataset_path / 'val'),
-        'test': str(dataset_path / 'test'),
-        'nc': len(DISEASES),
-        'names': DISEASES
-    }
-
-    yaml_path = dataset_path / 'dataset.yaml'
-    with open(yaml_path, 'w') as f:
-        yaml.dump(data_yaml, f)
-
-    return str(yaml_path)
 
 
 def check_checkpoint(save_dir, version):
@@ -103,7 +90,7 @@ def check_checkpoint(save_dir, version):
     return last_checkpoint
 
 
-def train_model(data_yaml, breed='korean_shorthair', version='v1', save_dir='runs/classify'):
+def train_model(data_yaml, breed='korean_shorthair', version='v1', save_dir='results'):
     """모델 학습"""
     try:
         # wandb 비활성화
@@ -114,7 +101,6 @@ def train_model(data_yaml, breed='korean_shorthair', version='v1', save_dir='run
 
         # 데이터셋 로컬로 복사
         local_dataset = copy_dataset_to_local()
-        local_yaml = create_dataset_yaml(local_dataset)
 
         # 체크포인트 확인
         last_checkpoint = check_checkpoint(save_dir, version)
@@ -128,7 +114,7 @@ def train_model(data_yaml, breed='korean_shorthair', version='v1', save_dir='run
 
         # 학습 설정
         training_args = {
-            'data': local_yaml,
+            'data': str(local_dataset),
             'epochs': 100,
             'batch': 16,
             'imgsz': 640,
@@ -185,18 +171,15 @@ def main():
     version = sys.argv[1]
     print(f"Starting training pipeline - Version {version}")
 
-    # YAML 파일 생성
-    data_yaml = create_dataset_yaml(Path('KoreaShortHair/datasets'))
-    print(f"Dataset YAML created at: {data_yaml}")
-
     # 모델 학습
-    model, train_results = train_model(data_yaml, version=version)
+    model, train_results = train_model(None, version=version)
 
     if model is not None:
         print("Training completed!")
 
         # 모델 검증
-        val_results = validate_model(model, data_yaml)
+        local_dataset = Path('/content/temp_dataset/datasets')
+        val_results = validate_model(model, str(local_dataset))
         print("Validation completed!")
 
     else:
