@@ -16,7 +16,7 @@ DISEASES = [
     'Blepharitis_Positive', 'Blepharitis_Negative'
 ]
 
-# 품종별 질병 취약도 가중치 정의
+# 품종별 질병 취약도 가중치 정의, 추후 수정 필요
 BREED_VULNERABILITY = {
     'korean_shorthair': {
         'Corneal_Ulcer': 1.2,
@@ -30,11 +30,11 @@ BREED_VULNERABILITY = {
 # 품종별 임계값 정의
 BREED_THRESHOLDS = {
     'korean_shorthair': {
-        'Corneal_Ulcer': 0.4,
-        'Corneal_Secquestrum': 0.45,
-        'Conjunctivitis': 0.4,
-        'Non_Ulcerative_Keratitis': 0.4,
-        'Blepharitis': 0.4
+        'Corneal_Ulcer': 0.5,
+        'Corneal_Secquestrum': 0.5,
+        'Conjunctivitis': 0.5,
+        'Non_Ulcerative_Keratitis': 0.5,
+        'Blepharitis': 0.5
     }
 }
 
@@ -52,7 +52,7 @@ def check_gpu():
 
 def copy_dataset_to_local():
     """데이터셋을 로컬 스토리지로 복사"""
-    source_path = Path('KoreaShortHair/datasets')
+    source_path = Path('../../../KoreaShortHair/datasets')
     local_path = Path('/content/temp_dataset/datasets')
 
     if not local_path.exists():
@@ -163,22 +163,6 @@ def train_model(data_yaml, breed='korean_shorthair', version='v1', save_dir='run
         return None, None
 
 
-def predict_with_threshold(model, image_path, breed='korean_shorthair'):
-    """임계값을 적용한 예측"""
-    results = model.predict(image_path, verbose=False)
-    probs = results[0].probs.data
-
-    predictions = []
-    for i, prob in enumerate(probs):
-        disease_name = DISEASES[i].split('_')[0]
-        threshold = BREED_THRESHOLDS[breed][disease_name]
-
-        if prob > threshold:
-            predictions.append((DISEASES[i], float(prob)))
-
-    return predictions
-
-
 def validate_model(model, data_yaml):
     """모델 검증"""
     val_args = {
@@ -215,17 +199,6 @@ def main():
         val_results = validate_model(model, data_yaml)
         print("Validation completed!")
 
-        # 예측 테스트
-        test_dir = Path('KoreaShortHair/datasets/test')
-        test_images = list(test_dir.rglob('*.jpg')) + list(test_dir.rglob('*.png'))
-
-        if test_images:
-            print("\nTesting predictions on random test images:")
-            for img_path in np.random.choice(test_images, min(5, len(test_images)), replace=False):
-                predictions = predict_with_threshold(model, str(img_path))
-                print(f"\nPredictions for {img_path.name}:")
-                for disease, prob in predictions:
-                    print(f"{disease}: {prob:.4f}")
     else:
         print("Training failed. Please check the error messages above.")
 
