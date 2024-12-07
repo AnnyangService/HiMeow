@@ -95,6 +95,7 @@ def train_model(data_yaml, breed='korean_shorthair', version='v1', save_dir='res
     try:
         # wandb 비활성화
         os.environ['WANDB_DISABLED'] = 'true'
+        os.environ['WANDB_MODE'] = 'offline'
 
         # GPU 설정
         device = 'cuda:0' if check_gpu() else 'cpu'
@@ -116,10 +117,10 @@ def train_model(data_yaml, breed='korean_shorthair', version='v1', save_dir='res
         training_args = {
             'data': str(local_dataset),
             'epochs': 100,
-            'batch': 16,
+            'batch': 32,
             'imgsz': 640,
             'device': device,
-            'project': save_dir,
+            'project': str(save_dir),
             'name': f'yolo_cls_{version}',
             'optimizer': 'SGD',
             'lr0': 0.01,
@@ -131,12 +132,14 @@ def train_model(data_yaml, breed='korean_shorthair', version='v1', save_dir='res
             'exist_ok': True,
             'pretrained': True if not last_checkpoint else False,
             'resume': True if last_checkpoint else False,
-            'amp': False,
+            'amp': True,
             'patience': 50,
             'save': True,
             'save_period': 10,  # 10 에포크마다 체크포인트 저장
-            'cache': False
+            'cache': True,
+            'rect': True
         }
+
 
         # 모델 학습
         results = model.train(**training_args)
