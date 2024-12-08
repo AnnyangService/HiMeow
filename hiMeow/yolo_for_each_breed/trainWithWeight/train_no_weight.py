@@ -72,7 +72,8 @@ def copy_dataset_to_local():
 
 def check_checkpoint(save_dir, version):
     """체크포인트 확인"""
-    checkpoint_dir = Path(save_dir) / f'yolo_cls_{version}' / 'weights'
+    checkpoint_dir = Path(
+        '/content/drive/MyDrive/himeow/hiMeow/yolo_for_each_breed/trainWithWeight') / save_dir / f'yolo_cls_{version}' / 'weights'
     last_checkpoint = None
 
     if checkpoint_dir.exists():
@@ -106,9 +107,12 @@ def train_model(data_yaml, breed='korean_shorthair', version='v1', save_dir='res
         # 체크포인트 확인
         last_checkpoint = check_checkpoint(save_dir, version)
 
-        # YOLO 모델 초기화
-        base_model_path = 'yolov8m-cls.pt'
-        model = YOLO(base_model_path if not last_checkpoint else last_checkpoint)
+        if last_checkpoint:
+            print(f"Loading checkpoint: {last_checkpoint}")
+            model = YOLO(last_checkpoint)  # 체크포인트가 있으면 사용
+        else:
+            print("No checkpoint found, starting from pretrained model")
+            model = YOLO('yolov8m-cls.pt')
 
         if torch.cuda.is_available():
             torch.cuda.empty_cache()
@@ -140,7 +144,6 @@ def train_model(data_yaml, breed='korean_shorthair', version='v1', save_dir='res
             'rect': True
         }
 
-
         # 모델 학습
         results = model.train(**training_args)
         return model, results
@@ -152,7 +155,7 @@ def train_model(data_yaml, breed='korean_shorthair', version='v1', save_dir='res
         return None, None
 
 
-def validate_model(model, data_yaml):
+def validate_model(model, data_yaml, version='v1', save_dir='results'):
     """모델 검증"""
     val_args = {
         'data': data_yaml,
@@ -161,6 +164,119 @@ def validate_model(model, data_yaml):
     }
 
     results = model.val(**val_args)
+
+    # validation 결과를 CSV 파일로 저장
+    save_path = Path(save_dir) / f'yolo_cls_{version}' / 'final_validation_results.csv'
+    save_path.parent.mkdir(parents=True, exist_ok=True)
+
+    # 결과 저장
+    if results is not None:
+        # 기본 메트릭 저장
+        metrics = {
+            'top1_accuracy': results.top1,
+            'top5_accuracy': results.top5,
+        }
+        with open(save_path, 'w') as f:
+            f.write("Metric,Value\n")
+            for k, v in metrics.items():
+                if isinstance(v, (int, float)):
+                    f.write(f"{k},{v}\n")
+
+        print(f"Validation results saved to {save_path}")
+
+        # Confusion Matrix 생성 및 저장
+        if hasattr(results, 'confusion_matrix'):
+            confusion_matrix_path = save_path.parent / 'final_validation_confusion_matrix.csv'
+
+            # 헤더 추가 (클래스 이름)
+            header = ','.join(DISEASES)
+            # confusion_matrix.matrix 속성 사용
+            matrix = results.confusion_matrix.matrix
+            if isinstance(matrix, np.ndarray):
+                np.savetxt(confusion_matrix_path, matrix.astype(int),
+                           delimiter=',', fmt='%d',
+                           header=header)
+                print(f"Confusion matrix saved to {confusion_matrix_path}")
+
+    return results
+
+
+def copy_results_to_drive(source_dir, version):
+    """학습 결과를 Google Drive로 복사"""
+    drive_path = Path('/content/drive/MyDrive/himeow/hiMeow/yolo_for_each_breed/trainWithWeight/results')
+    source_dir = Path(source_dir) / f'yolo_cls_{version}'
+    target_dir = drive_path / f'yolo_cls_{version}'
+
+    if source_dir.exists():
+        print(f"\nCopying results to Google Drive...")
+
+        # 타겟 디렉토리 생성
+        target_dir.mkdir(parents=True, exist_ok=True)
+
+        try:
+            # weights 폴더 복사
+            if (source_dir / 'weights').exists():
+                weights_target = target_dir / 'weights'
+                weights_target.mkdir(exist_ok=True)
+                for weight_file in (source_dir / 'weights').glob('*.pt'):
+                    shutil.copy2(weight_file, weights_target / weight_file.name)
+                print("Weights copied successfully")
+
+            # 기타 결과 파일 복사
+            for file in source_dir.glob('*.*'):  # weights 폴더 제외한 파일들
+                if file.is_file():
+                    shutil.copy2(file, target_dir / file.name)
+
+            print("Results copied to Google Drive successfully")
+
+        except Exception as e:
+            print(f"Error copying results: {str(e)}")
+
+
+def test_model(model, data_yaml, version='v1', save_dir='results'):
+    """모델 테스트"""
+    print("\nRunning final test...")
+    test_args = {
+        'data': data_yaml,
+        'device': 0 if torch.cuda.is_available() else 'cpu',
+        'verbose': True,
+        'split': 'test'  # test 데이터셋 사용
+    }
+
+    results = model.val(**test_args)
+
+    # test 결과를 CSV 파일로 저장
+    save_path = Path(save_dir) / f'yolo_cls_{version}' / 'test_results.csv'
+    save_path.parent.mkdir(parents=True, exist_ok=True)
+
+    if results is not None:
+        # 기본 메트릭 저장
+        metrics = {
+            'top1_accuracy': results.top1,
+            'top5_accuracy': results.top5,
+        }
+        with open(save_path, 'w') as f:
+            f.write("Metric,Value\n")
+            for k, v in metrics.items():
+                if isinstance(v, (int, float)):
+                    f.write(f"{k},{v}\n")
+
+        print(f"Test results saved to {save_path}")
+
+        # Confusion Matrix 생성 및 저장
+        if hasattr(results, 'confusion_matrix'):
+            confusion_matrix_path = save_path.parent / 'test_confusion_matrix.csv'
+
+            # 헤더 추가 (클래스 이름)
+            header = ','.join(DISEASES)
+            # confusion_matrix.matrix 속성 사용
+            matrix = results.confusion_matrix.matrix
+            if isinstance(matrix, np.ndarray):
+                np.savetxt(confusion_matrix_path, matrix.astype(int),
+                           delimiter=',', fmt='%d',
+                           header=header)
+                print(f"Confusion matrix saved to {confusion_matrix_path}")
+
     return results
 
 
@@ -172,21 +288,66 @@ def main():
         sys.exit(1)
 
     version = sys.argv[1]
-    print(f"Starting training pipeline - Version {version}")
+    save_dir = 'results'
+    checkpoint_dir = Path(
+        '/content/drive/MyDrive/himeow/hiMeow/yolo_for_each_breed/trainWithWeight') / save_dir / f'yolo_cls_{version}'
 
-    # 모델 학습
-    model, train_results = train_model(None, version=version)
+    # validation, test 결과 파일 경로
+    val_results_path = checkpoint_dir / 'final_validation_results.csv'
+    test_results_path = checkpoint_dir / 'test_results.csv'
 
-    if model is not None:
-        print("Training completed!")
+    if checkpoint_dir.exists() and (checkpoint_dir / 'weights/last.pt').exists():
+        print(f"Found existing model for version {version}")
 
-        # 모델 검증
-        local_dataset = Path('/content/temp_dataset/datasets')
-        val_results = validate_model(model, str(local_dataset))
-        print("Validation completed!")
+        # 기존 모델 로드
+        model = YOLO(str(checkpoint_dir / 'weights/last.pt'))
+
+        # validation 결과가 없는 경우에만 수행
+        if not val_results_path.exists():
+            print("Running validation...")
+            local_dataset = Path('/content/temp_dataset/datasets')
+            val_results = validate_model(model, str(local_dataset), version=version, save_dir=save_dir)
+            print("Validation completed!")
+            # Drive에 결과 복사
+            copy_results_to_drive(save_dir, version)
+        else:
+            print("Validation results already exist.")
+
+        # test 결과가 없는 경우에만 수행
+        if not test_results_path.exists():
+            print("Running test...")
+            local_dataset = Path('/content/temp_dataset/datasets')
+            test_results = test_model(model, str(local_dataset), version=version, save_dir=save_dir)
+            print("Test completed!")
+            # Drive에 결과 복사
+            copy_results_to_drive(save_dir, version)
+        else:
+            print("Test results already exist.")
 
     else:
-        print("Training failed. Please check the error messages above.")
+        print("No existing model found. Starting training...")
+        # 모델 학습
+        model, train_results = train_model(None, version=version)
+
+        if model is not None:
+            print("Training completed!")
+
+            # validation과 test 수행
+            local_dataset = Path('/content/temp_dataset/datasets')
+
+            print("Running validation...")
+            val_results = validate_model(model, str(local_dataset), version=version, save_dir=save_dir)
+            print("Validation completed!")
+
+            print("Running test...")
+            test_results = test_model(model, str(local_dataset), version=version, save_dir=save_dir)
+            print("Test completed!")
+
+            # 모든 결과를 Drive에 복사
+            copy_results_to_drive(save_dir, version)
+
+        else:
+            print("Training failed. Please check the error messages above.")
 
 
 if __name__ == "__main__":
