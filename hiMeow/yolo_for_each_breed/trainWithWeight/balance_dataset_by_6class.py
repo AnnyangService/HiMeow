@@ -1,10 +1,10 @@
-import random
 import shutil
+import random
+from pathlib import Path
 import cv2
 import numpy as np
-from pathlib import Path
 from albumentations import (
-    Compose, RandomRotate90, HorizontalFlip, VerticalFlip,
+    Compose, RandomRotate90, HorizontalFlip,
     RandomBrightnessContrast, HueSaturationValue,
     GaussNoise, Blur, RandomResizedCrop
 )
@@ -26,109 +26,104 @@ def augment_image(image):
     return augmented['image']
 
 
-def merge_negative_classes(source_dir):
-    """Negative 클래스들을 하나의 Normal 클래스로 병합"""
-    negative_classes = [
-        'Blepharitis_Negative',
-        'Conjunctivitis_Negative',
-        'Corneal_Secquestrum_Negative',
-        'Corneal_Ulcer_Negative',
-        'Non_Ulcerative_Keratitis_Negative'
-    ]
-
-    images = []
-    for neg_class in negative_classes:
-        class_path = source_dir / neg_class
-        if class_path.exists():
-            images.extend(list(class_path.glob('*.jpg')) + list(class_path.glob('*.png')))
-
-    return images
-
-
-def balance_dataset(source_root, target_root, target_count=600):
-    """데이터셋 균형화"""
+def balance_split_with_sampling(source_root, target_root, train_count=600):
+    """데이터셋을 균형있게 분할하고 언더/오버샘플링을 수행하는 함수"""
     source_root = Path(source_root)
     target_root = Path(target_root)
+    target_root.mkdir(parents=True, exist_ok=True)
 
-    # 새로운 클래스 매핑
-    new_classes = {
-        'Blepharitis_Positive': 'Blepharitis',
-        'Conjunctivitis_Positive': 'Conjunctivitis',
-        'Corneal_Secquestrum_Positive': 'Corneal_Secquestrum',
-        'Corneal_Ulcer_Positive': 'Corneal_Ulcer',
-        'Non_Ulcerative_Keratitis_Positive': 'Non_Ulcerative_Keratitis',
-        'Normal': 'Normal'  # 병합된 Negative 클래스들
-    }
+    val_count = int(train_count * 0.25)  # 150
+    test_count = val_count  # 150
 
-    for split in ['train', 'val', 'test']:
-        print(f"\nProcessing {split} set...")
-        split_dir = source_root / split
+    classes = [
+        'Normal',
+        'Blepharitis',
+        'Conjunctivitis',
+        'Corneal_Secquestrum',
+        'Corneal_Ulcer',
+        'Non_Ulcerative_Keratitis'
+    ]
 
-        # Normal 클래스 처리
-        normal_images = merge_negative_classes(split_dir)
+    for class_name in classes:
+        print(f"\nProcessing {class_name}...")
 
-        for old_class, new_class in new_classes.items():
-            target_class_dir = target_root / split / new_class
-            target_class_dir.mkdir(parents=True, exist_ok=True)
-
-            if old_class == 'Normal':
-                source_imgs = normal_images
+        # 각 split에서 이미지 수집
+        split_images = {}
+        total_images = 0
+        for split in ['train', 'val', 'test']:
+            class_dir = source_root / split / class_name
+            if class_dir.exists():
+                images = list(class_dir.glob('*.jpg')) + list(class_dir.glob('*.png'))
+                split_images[split] = images
+                print(f"Found {len(images)} images in {split}")
+                total_images += len(images)
             else:
-                class_dir = split_dir / old_class
-                if not class_dir.exists():
-                    continue
-                source_imgs = list(class_dir.glob('*.jpg')) + list(class_dir.glob('*.png'))
+                split_images[split] = []
+                print(f"No images found in {split}")
 
-            current_count = len(source_imgs)
+        print(f"Total images found for {class_name}: {total_images}")
+
+        # 각 split 처리
+        for split, target_count in [('train', train_count), ('val', val_count), ('test', test_count)]:
+            target_dir = target_root / split / class_name
+            target_dir.mkdir(parents=True, exist_ok=True)
+
+            original_images = split_images[split]
+            current_count = len(original_images)
 
             if current_count > target_count:
                 # 언더샘플링
-                selected_imgs = random.sample(source_imgs, target_count)
-                print(f"{new_class}: Under-sampling {current_count} -> {target_count}")
+                print(f"Undersampling {class_name} {split} set: {current_count} -> {target_count}")
+                selected_images = random.sample(original_images, target_count)
+                for img in selected_images:
+                    shutil.copy2(img, target_dir / img.name)
 
-                for img in selected_imgs:
-                    target_path = target_class_dir / img.name
-                    shutil.copy2(img, target_path)
             else:
-                # 오버샘플링 with augmentation
-                print(f"{new_class}: Over-sampling with augmentation {current_count} -> {target_count}")
+                # 원본 이미지 복사 후 부족한 경우 오버샘플링
+                print(
+                    f"Copying original images and augmenting {class_name} {split} set: {current_count} -> {target_count}")
+                # 원본 이미지 모두 복사
+                for img in original_images:
+                    shutil.copy2(img, target_dir / img.name)
 
-                # 원본 이미지 복사
-                for img in source_imgs:
-                    target_path = target_class_dir / img.name
-                    shutil.copy2(img, target_path)
+                # 부족한 만큼 augmentation
+                if current_count < target_count:
+                    remaining = target_count - current_count
+                    aug_count = 0
+                    while aug_count < remaining:
+                        for img_path in original_images:
+                            if aug_count >= remaining:
+                                break
 
-                # 부족한 만큼 증강된 이미지 생성
-                remaining = target_count - current_count
-                while remaining > 0:
-                    for img in source_imgs:
-                        if remaining <= 0:
-                            break
+                            # 이미지 읽기 및 증강
+                            image = cv2.imread(str(img_path))
+                            image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+                            augmented = augment_image(image)
 
-                        image = cv2.imread(str(img))
-                        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-                        augmented = augment_image(image)
+                            # 증강된 이미지 저장
+                            aug_name = f"{img_path.stem}_aug_{aug_count}{img_path.suffix}"
+                            augmented_bgr = cv2.cvtColor(augmented, cv2.COLOR_RGB2BGR)
+                            cv2.imwrite(str(target_dir / aug_name), augmented_bgr)
 
-                        target_path = target_class_dir / f"{img.stem}_aug_{remaining}{img.suffix}"
-                        augmented_bgr = cv2.cvtColor(augmented, cv2.COLOR_RGB2BGR)
-                        cv2.imwrite(str(target_path), augmented_bgr)
+                            aug_count += 1
 
-                        remaining -= 1
+            final_count = len(list(target_dir.glob('*.*')))
+            print(f"{split} set final count: {final_count}")
 
 
 if __name__ == "__main__":
-    source_dataset = "/content/drive/MyDrive/himeow/KoreaShortHair/origin_datasets"
-    target_dataset = "/content/drive/MyDrive/himeow/KoreaShortHair/datasets"
+    source_path = Path("/content/drive/MyDrive/himeow/KoreaShortHair/sorted_datasets")
+    target_path = Path("/content/drive/MyDrive/himeow/KoreaShortHair/datasets")
 
-    print("Starting dataset balancing...")
-    balance_dataset(source_dataset, target_dataset, target_count=600)
-    print("\nDataset balancing completed!")
+    print("Starting dataset balancing with under/oversampling...")
+    balance_split_with_sampling(source_path, target_path, train_count=600)
 
-    # 결과 확인
-    target_root = Path(target_dataset)
+    print("\nVerifying final dataset distribution...")
     for split in ['train', 'val', 'test']:
         print(f"\n{split} set counts:")
-        for class_dir in (target_root / split).iterdir():
-            if class_dir.is_dir():
-                count = len(list(class_dir.glob('*')))
-                print(f"{class_dir.name}: {count}")
+        split_path = target_path / split
+        if split_path.exists():
+            for class_dir in split_path.iterdir():
+                if class_dir.is_dir():
+                    count = len(list(class_dir.glob('*.*')))
+                    print(f"{class_dir.name}: {count}")
