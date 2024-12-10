@@ -9,21 +9,21 @@ import os
 
 # 질병 클래스 정의
 DISEASES = [
-    'Corneal_Ulcer_Positive', 'Corneal_Ulcer_Negative',
-    'Corneal_Secquestrum_Positive', 'Corneal_Secquestrum_Negative',
-    'Conjunctivitis_Positive', 'Conjunctivitis_Negative',
-    'Non_Ulcerative_Keratitis_Positive', 'Non_Ulcerative_Keratitis_Negative',
-    'Blepharitis_Positive', 'Blepharitis_Negative'
+    'Blepharitis',
+    'Conjunctivitis',
+    'Corneal_Secquestrum',
+    'Corneal_Ulcer',
+    'Non_Ulcerative_Keratitis',
+    'Normal'
 ]
 
-# 품종별 질병 취약도 가중치 정의, 추후 수정 필요
 BREED_VULNERABILITY = {
     'korean_shorthair': {
-        'Corneal_Ulcer': 1.2,
-        'Corneal_Secquestrum': 1.3,
-        'Conjunctivitis': 1.1,
-        'Non_Ulcerative_Keratitis': 1.2,
-        'Blepharitis': 1.1
+        'Corneal_Ulcer': 1.0,
+        'Corneal_Secquestrum': 1.0,
+        'Conjunctivitis': 1.0,
+        'Non_Ulcerative_Keratitis': 1.0,
+        'Blepharitis': 1.0
     }
 }
 
