@@ -13,7 +13,8 @@ enhancer = ImageEnhance.Color(original_image)
 color_shifted_image = enhancer.enhance(1.5)  # 채도 증가 (1.5배)
 
 # 4. 결과 저장 또는 시각화
-original_image.show(title="Original Image")
+original_image.s
+how(title="Original Image")
 mirrored_image.show(title="Mirrored Image")
 color_shifted_image.show(title="Color Shifted Image")
 
