@@ -4,8 +4,8 @@ import json
 import shutil
 
 # 3. 데이터 경로 설정
-source_folder = r"C:\Users\82103\Desktop\cat_data\Training"  # 기존 데이터 폴더
-destination_folder = r"C:\Users\82103\Desktop\Grouping/Training"  # 새로운 데이터 저장 폴더
+source_folder = r"G:\내 드라이브\data\Training"  # 기존 데이터 폴더
+destination_folder = r"G:\내 드라이브\Grouping/Training"  # 새로운 데이터 저장 폴더
 
 # 4. 파일 복사 함수
 def copy_files(source_folder, destination_folder):

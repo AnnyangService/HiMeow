@@ -1,4 +1,4 @@
-//colab
+# colab
 
 # 1. 구글 드라이브 마운트
 from google.colab import drive
@@ -10,7 +10,7 @@ import json
 import shutil
 
 # 3. 데이터 경로 설정
-source_folder = "/content/drive/MyDrive/dataset/Training"  # 기존 데이터 폴더
+source_folder = "/content/drive/MyDrive/data/Training"  # 기존 데이터 폴더
 destination_folder = "/content/drive/MyDrive/Grouping/Training"  # 새로운 데이터 저장 폴더
 
 # 4. 파일 복사 함수
